@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="0; url=./">
     <script>
-        // Сохраняем путь и редиректим на index.html, добавляя его к hash
-        var path = location.pathname + location.search + location.hash;
-        location.replace('./index.html#' + path);
+        // Укажи базовый путь (название твоего репозитория)
+        const BASE = '/LaunchBoard';
+
+        // Удаляем BASE из pathname
+        const fullPath = location.pathname.replace(BASE, '') + location.search + location.hash;
+
+        // Редирект на index.html с нужным маршрутом
+        location.replace(BASE + '/index.html#' + fullPath);
     </script>
 </head>
 <body>
