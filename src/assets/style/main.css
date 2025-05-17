@@ -1,0 +1,23 @@
+@import "fonts.scss";
+
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #F9FAF5;
+}
+
+a{
+    text-decoration: none;
+}
+
+li{
+    list-style: none;
+}
+
+button{
+    border: none;
+    outline: none;
+    background: none;
+}
