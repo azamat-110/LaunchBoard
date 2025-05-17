@@ -126,6 +126,7 @@ function sortedGroups(groups) {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding-bottom: 10px;
 
   &__title {
     font-size: 16px;
