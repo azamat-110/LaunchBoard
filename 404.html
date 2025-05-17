@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=./">
+    <script>
+        // Сохраняем путь и редиректим на index.html, добавляя его к hash
+        var path = location.pathname + location.search + location.hash;
+        location.replace('./index.html#' + path);
+    </script>
+</head>
+<body>
+Redirecting...
+</body>
+</html>
