@@ -27,8 +27,9 @@
 
   &__logo {
     font-size: 30px;
-    font-weight: bold;
     font-family: Roboto, serif;
+    font-weight: 700;
+    line-height: 100%;
   }
 }
 
@@ -45,9 +46,12 @@
     font-size: 18px;
     color: #000000;
     padding: 20px 0 20px 15px;
-    border-radius: 10px;
+    border-radius: 11px;
     transition: ease .5s;
-    
+    font-weight: 500;
+    line-height: 100%;
+
+
     &-active{
       background: #EEECDC;
     }

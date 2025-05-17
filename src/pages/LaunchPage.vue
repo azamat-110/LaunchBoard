@@ -2,36 +2,21 @@
 import CourseCard from "@/components/CourseCard.vue";
 import CategoryBtn from "@/components/CategoryBtn.vue";
 import Loader from "@/components/Loader.vue";
-import {useLaunches} from "@/stores/store.js";
 import {onMounted, ref, computed, nextTick} from "vue";
 import draggable from 'vuedraggable';
+import {useLaunches} from "@/stores/store.js";
 
 const store = useLaunches();
 const selectedCategoryId = ref(null);
 const localLaunches = ref([]);
+const categoryOrder = ['Маркетинг', '3D Графика', 'Программирование', 'Медиа', 'Компьютерная грамотность'];
+const isMobile = computed(() => window.innerWidth <= 768);
 
 function initializeLocalLaunches() {
   if (store.launches && store.launches.length > 0) {
     localLaunches.value = JSON.parse(JSON.stringify(store.launches));
   }
 }
-
-onMounted(async () => {
-  await store.loadLaunches();
-  console.log(store.launches);
-  initializeLocalLaunches();
-  await nextTick();
-
-  const kanbanWrapper = document.querySelector('.kanban-wrapper');
-  if (kanbanWrapper) {
-    kanbanWrapper.addEventListener('wheel', (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        kanbanWrapper.scrollLeft += e.deltaY * 2;
-      }
-    });
-  }
-});
 
 function toggleCategory(id) {
   selectedCategoryId.value = selectedCategoryId.value === id ? null : id;
@@ -44,13 +29,32 @@ const uniqueCategories = computed(() => {
       if (!seen.has(cat.id)) seen.set(cat.id, cat);
     }
   }
-  return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name));
+  return Array.from(seen.values()).sort((a, b) =>
+      categoryOrder.indexOf(a.name) - categoryOrder.indexOf(b.name)
+  );
+});
+
+onMounted(async () => {
+  await store.loadLaunches();
+  console.log(store.launches);
+  initializeLocalLaunches();
+  await nextTick();
+
+  const kanbanWrapper = document.querySelector('.kanban-wrapper');
+  if (kanbanWrapper) {
+    kanbanWrapper.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        kanbanWrapper.scrollLeft += e.deltaY;
+      }
+    });
+  }
 });
 
 </script>
 
 <template>
-  <Loader v-if=" localLaunches.length === 0"/>
+  <Loader v-if="!localLaunches.length"/>
   <div class="launch-page" v-else>
     <h1 class="launch-page__title">Запуски</h1>
     <div class="line"></div>
@@ -62,9 +66,7 @@ const uniqueCategories = computed(() => {
             :key="category.id"
             :label="category.name"
             :size="'medium'"
-            :clickable="true"
             @click="toggleCategory(category.id)"
-            :class="{ active: selectedCategoryId === category.id }"
             :bgColor="'#E0E0E0'"
             :activeBg="selectedCategoryId === category.id ? category.color : false"
         />
@@ -79,13 +81,14 @@ const uniqueCategories = computed(() => {
           ghost-class="drag-ghost"
           chosen-class="drag-chosen"
           animation="200"
+          :disabled="isMobile"
           handle=".course-card"
       >
         <template #item="{ element }">
           <div
-              v-if="(!selectedCategoryId
-              || element.categories.some(cat => cat.id === selectedCategoryId))
-              && element.groups.length"
+              v-if="(!selectedCategoryId ||
+              element.categories.some(cat => cat.id === selectedCategoryId)) &&
+              element.groups.length"
               class="card-wrapper"
           >
             <CourseCard :launch="element"/>
@@ -97,20 +100,16 @@ const uniqueCategories = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.launch-page {
-  &__title {
-    font-size: 24px;
-    font-family: Inter, serif;
-    margin: 20px;
-
-  }
+.launch-page__title {
+  font-size: 24px;
+  font-family: Inter, serif;
+  margin: 20px;
 }
 
 .categories {
   width: 100%;
   display: flex;
   align-items: center;
-
 
   &__title {
     font-size: 24px;
@@ -127,6 +126,7 @@ const uniqueCategories = computed(() => {
     overflow-y: hidden;
     padding: 0 20px;
     white-space: nowrap;
+    scrollbar-width: none;
   }
 }
 
@@ -147,9 +147,6 @@ const uniqueCategories = computed(() => {
 .kanban-wrapper {
   overflow-x: auto;
   overflow-y: hidden;
-  height: 100%;
-  width: 100%;
-  scroll-behavior: smooth;
   cursor: grab;
 
   &:active {
@@ -161,13 +158,11 @@ const uniqueCategories = computed(() => {
   display: flex;
   gap: 20px;
   min-width: max-content;
-  padding-bottom: 20px;
 }
 
 .card-wrapper {
-  transition: all ease;
   user-select: none;
-  min-width: 280px;
+  overflow-y: auto;
 }
 
 .drag-ghost {

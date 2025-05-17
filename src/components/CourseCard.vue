@@ -1,17 +1,10 @@
 <script setup>
 import CategoryBtn from "@/components/CategoryBtn.vue";
-import {useLaunches} from "@/stores/store.js";
-import {onMounted, toRaw} from "vue";
+import { toRaw} from "vue";
 
 const props = defineProps({
   launch: Object,
 })
-
-const store = useLaunches();
-
-onMounted(async () => {
-  await store.loadLaunches();
-});
 
 function formatDate(dateStr) {
   const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
@@ -72,14 +65,13 @@ function sortedGroups(groups) {
 </script>
 
 <template>
-  <div class="course-card" v-if="launch.groups[0]">
+  <div class="course-card">
     <div class="course-header">
       <h2 class="course-header__title">{{ launch.name }}</h2>
       <div class="category-wrapper">
         <CategoryBtn
             :size="'small'"
             :label="launch.categories[0].name"
-            :clickable="false"
             :bgColor="launch.categories[0].color"/>
       </div>
     </div>
@@ -87,7 +79,6 @@ function sortedGroups(groups) {
     <div class="schedule-section">
       <div class="start-group">
         <h3 class="start-group__title">Старт групп</h3>
-
         <div class="starts">
           <div class="start-group__date">
             <span class="date">{{ formatDate(launch.groups[0]?.start_date) }}</span>
@@ -123,7 +114,6 @@ function sortedGroups(groups) {
   min-width: 350px;
   max-width: 350px;
   overflow-y: auto;
-  transition: all .5s;
 }
 
 .category-wrapper {
@@ -198,12 +188,6 @@ function sortedGroups(groups) {
 
   &__date {
     @extend .start-group__date;
-  }
-}
-
-@media (max-width: 767px) {
-  .course-card {
-    overflow-y: visible;
   }
 }
 </style>

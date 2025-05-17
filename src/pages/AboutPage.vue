@@ -1,4 +1,5 @@
-<script setup></script>
+<script setup>
+</script>
 
 <template>
   <div class="about-page">
@@ -19,13 +20,17 @@
       <div class="info-section__bio">
         <p>Меня зовут Азамат. Учусь в Ташкентском университете информационных технологий по направлению компьютерного
           инжиниринга. Именно во время учёбы появился интерес к веб-разработке и программированию в целом.
-          <br>
+        </p>
+        <p>
           Пока нет опыта коммерческой работы, но есть несколько учебных проектов на стеке Vue.js и JavaScript. Один из
           них — сайт для детской больницы, где мной была разработана собственная база данных, написан сервер и
           реализовано взаимодействие с фронтендом.
-          <br>
+        </p>
+        <p>
+
           Активно учусь, пробую новые технологии и стремлюсь развиваться как фронтенд-разработчик.
         </p>
+
       </div>
     </div>
 
@@ -34,15 +39,13 @@
 
 
 <style lang="scss" scoped>
-.about-page {
-
-  &__title {
-    margin: 0;
-    font-size: 24px;
-    font-family: Inter, serif;
-    padding: 48px 0 20px 20px;
-  }
+.about-page__title {
+  margin: 0;
+  font-size: 24px;
+  font-family: Inter, serif;
+  padding: 48px 0 20px 20px;
 }
+
 
 .profile-section {
   display: flex;
@@ -50,7 +53,7 @@
   gap: 20px;
   padding: 20px;
 
-  &__image img{
+  &__image img {
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -105,5 +108,52 @@
   height: 1px;
   background: #CCCCCC;
 }
+
+@media (max-width: 768px) {
+  .profile-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+
+    &__image img {
+      width: 150px;
+      height: 150px;
+    }
+
+    &__info {
+      align-items: center;
+      text-align: center;
+      margin-top: 15px;
+
+      &-title {
+        font-size: 24px;
+      }
+
+      & p {
+        font-size: 16px;
+        padding-top: 3px;
+      }
+    }
+  }
+
+  .about-page__title {
+    padding: 24px 10px 10px 10px;
+    font-size: 20px;
+  }
+
+  .info-section {
+    padding: 10px;
+
+    &__title {
+      font-size: 22px;
+    }
+
+    &__bio p {
+      font-size: 16px;
+      padding-top: 15px;
+    }
+  }
+}
+
 
 </style>

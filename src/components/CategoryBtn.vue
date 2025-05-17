@@ -2,8 +2,6 @@
 const props = defineProps({
   label: String,
   size: String,
-  clickable: Boolean,
-  active: Boolean,
   bgColor: {
     type: String,
     default: "default-color",
