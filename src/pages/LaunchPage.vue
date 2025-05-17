@@ -1,63 +1,35 @@
 <script setup>
 import CourseCard from "@/components/CourseCard.vue";
 import CategoryBtn from "@/components/CategoryBtn.vue";
-import {useLaunches} from "@/stores/store.js";
-import {onMounted, ref, computed, watch} from "vue";
 import Loader from "@/components/Loader.vue";
+import {useLaunches} from "@/stores/store.js";
+import {onMounted, ref, computed, nextTick} from "vue";
 import draggable from 'vuedraggable';
 
 const store = useLaunches();
 const selectedCategoryId = ref(null);
-const isDragging = ref(false);
-const isInitialized = ref(false);
 const localLaunches = ref([]);
 
 function initializeLocalLaunches() {
   if (store.launches && store.launches.length > 0) {
     localLaunches.value = JSON.parse(JSON.stringify(store.launches));
-    isInitialized.value = true;
   }
-}
-
-const isSyncing = ref(false);
-
-watch(() => store.launches, (newLaunches) => {
-  if (!isDragging.value && !isSyncing.value && newLaunches && newLaunches.length > 0) {
-    isSyncing.value = true;
-    localLaunches.value = JSON.parse(JSON.stringify(newLaunches));
-    isSyncing.value = false;
-  }
-});
-
-watch(() => localLaunches.value, (newLocalLaunches) => {
-  if (!isDragging.value && !isSyncing.value && isInitialized.value) {
-    isSyncing.value = true;
-    store.updateLaunchesOrder(newLocalLaunches);
-    isSyncing.value = false;
-  }
-});
-
-
-function onDragStart() {
-  isDragging.value = true;
-}
-
-function onDragEnd() {
-  isDragging.value = false;
 }
 
 onMounted(async () => {
   await store.loadLaunches();
+  console.log(store.launches);
   initializeLocalLaunches();
+  await nextTick();
 
-  const wrapper = document.querySelector('.kanban-wrapper');
-  if (wrapper) {
-    wrapper.addEventListener('wheel', (e) => {
-      if (e.ctrlKey) {
+  const kanbanWrapper = document.querySelector('.kanban-wrapper');
+  if (kanbanWrapper) {
+    kanbanWrapper.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        wrapper.scrollLeft += e.deltaY;
+        kanbanWrapper.scrollLeft += e.deltaY * 2;
       }
-    }, {passive: false});
+    });
   }
 });
 
@@ -101,19 +73,19 @@ const uniqueCategories = computed(() => {
     <div class="line"></div>
     <div class="courses kanban-wrapper">
       <draggable
-          v-model="localLaunches"
+          :list="localLaunches"
           item-key="id"
           class="kanban"
           ghost-class="drag-ghost"
           chosen-class="drag-chosen"
           animation="200"
-          @start="onDragStart"
-          @end="onDragEnd"
           handle=".course-card"
       >
         <template #item="{ element }">
           <div
-              v-show="!selectedCategoryId || element.categories.some(cat => cat.id === selectedCategoryId)"
+              v-if="(!selectedCategoryId
+              || element.categories.some(cat => cat.id === selectedCategoryId))
+              && element.groups.length"
               class="card-wrapper"
           >
             <CourseCard :launch="element"/>
@@ -179,7 +151,6 @@ const uniqueCategories = computed(() => {
   width: 100%;
   scroll-behavior: smooth;
   cursor: grab;
-
 
   &:active {
     cursor: grabbing;

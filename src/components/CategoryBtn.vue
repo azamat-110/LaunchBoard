@@ -42,26 +42,31 @@ const getContrastColor = (hex) => {
 
 <style lang="scss" scoped>
 .categories__list-btn {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background: #EDEDED;
   border-radius: 30px;
   font-family: Inter, serif;
-  white-space: nowrap;
   color: #000000;
   transition: ease .3s;
-}
+ }
 
 .medium {
   font-size: 16px;
   padding: 8px 12px;
   cursor: pointer;
+  font-family: Inter,serif;
+  font-weight: 500;
+  line-height: 100%;
 }
 
 .small {
   font-size: 12px;
   padding: 4px 7px;
-  color: #ffffff;
+  line-height: 10px;
 }
-
 
 .default-bg-color {
   background: #EDEDED;

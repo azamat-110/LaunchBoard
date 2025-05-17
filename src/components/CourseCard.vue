@@ -75,11 +75,13 @@ function sortedGroups(groups) {
   <div class="course-card" v-if="launch.groups[0]">
     <div class="course-header">
       <h2 class="course-header__title">{{ launch.name }}</h2>
-      <CategoryBtn
-          :size="'small'"
-          :label="launch.categories[0].name"
-          :clickable="false"
-          :bgColor="launch.categories[0].color"/>
+      <div class="category-wrapper">
+        <CategoryBtn
+            :size="'small'"
+            :label="launch.categories[0].name"
+            :clickable="false"
+            :bgColor="launch.categories[0].color"/>
+      </div>
     </div>
 
     <div class="schedule-section">
@@ -117,9 +119,15 @@ function sortedGroups(groups) {
 
 <style lang="scss" scoped>
 .course-card {
+  width: 350px;
   min-width: 350px;
+  max-width: 350px;
   overflow-y: auto;
   transition: all .5s;
+}
+
+.category-wrapper {
+  min-width: 0;
 }
 
 .course-header {
@@ -129,9 +137,13 @@ function sortedGroups(groups) {
   padding-bottom: 10px;
 
   &__title {
+    white-space: nowrap;
+    max-width: 100%;
     font-size: 16px;
     font-family: Inter, serif;
     color: #606060;
+    font-weight: 500;
+    line-height: 100%;
   }
 }
 
