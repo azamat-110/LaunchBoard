@@ -1,10 +1,12 @@
 <script setup>
 import Sidebar from "@/components/Sidebar.vue";
+import MobileNav from "@/components/MobileNav.vue";
 </script>
 
 <template>
   <div class="app-layout">
     <Sidebar/>
+    <MobileNav/>
     <main class="page-content">
       <transition name="fade" mode="out-in">
         <router-view/>
@@ -35,5 +37,6 @@ import Sidebar from "@/components/Sidebar.vue";
 .fade-enter-to, .fade-leave-from {
   opacity: 1;
 }
+
 
 </style>

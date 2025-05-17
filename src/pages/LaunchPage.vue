@@ -2,7 +2,7 @@
 import CourseCard from "@/components/CourseCard.vue";
 import CategoryBtn from "@/components/CategoryBtn.vue";
 import {useLaunches} from "@/stores/store.js";
-import {onMounted, ref, computed, nextTick, watch} from "vue";
+import {onMounted, ref, computed, watch} from "vue";
 import Loader from "@/components/Loader.vue";
 import draggable from 'vuedraggable';
 
@@ -41,9 +41,17 @@ function onDragEnd() {
 
 onMounted(async () => {
   await store.loadLaunches();
-  await nextTick();
   initializeLocalLaunches();
-  await nextTick();
+
+  const wrapper = document.querySelector('.kanban-wrapper');
+  if (wrapper) {
+    wrapper.addEventListener('wheel', (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        wrapper.scrollLeft += e.deltaY;
+      }
+    }, {passive: false});
+  }
 });
 
 function toggleCategory(id) {
@@ -115,6 +123,7 @@ const uniqueCategories = computed(() => {
     font-size: 24px;
     font-family: Inter, serif;
     margin: 20px;
+
   }
 }
 
@@ -122,6 +131,7 @@ const uniqueCategories = computed(() => {
   width: 100%;
   display: flex;
   align-items: center;
+
 
   &__title {
     font-size: 24px;
@@ -133,8 +143,11 @@ const uniqueCategories = computed(() => {
   &__list {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
-    padding-right: 20px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 20px;
+    white-space: nowrap;
   }
 }
 
@@ -160,6 +173,7 @@ const uniqueCategories = computed(() => {
   scroll-behavior: smooth;
   cursor: grab;
 
+
   &:active {
     cursor: grabbing;
   }
@@ -175,6 +189,7 @@ const uniqueCategories = computed(() => {
 .card-wrapper {
   transition: all ease;
   user-select: none;
+  min-width: 280px;
 }
 
 .drag-ghost {
