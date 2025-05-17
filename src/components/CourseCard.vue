@@ -74,10 +74,10 @@ function sortedGroups(groups) {
 <template>
   <div class="course-card" v-if="launch.groups[0]">
     <div class="course-header">
-      <h2 class="course-header__title">{{ launch.categories[0].name }}</h2>
+      <h2 class="course-header__title">{{ launch.name }}</h2>
       <CategoryBtn
           :size="'small'"
-          :label="launch.name"
+          :label="launch.categories[0].name"
           :clickable="false"
           :bgColor="launch.categories[0].color"/>
     </div>

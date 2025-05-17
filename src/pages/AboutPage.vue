@@ -8,7 +8,7 @@
     <div class="line"></div>
     <div class="profile-section">
       <div class="profile-section__image">
-        <img src="../assets/images/profile.png" alt="profile">
+        <img src="../assets/images/aboutLogo.svg" alt="profile">
       </div>
       <div class="profile-section__info">
         <h3 class="profile-section__info-title">Турсунбаев Азамат Равшанович</h3>
