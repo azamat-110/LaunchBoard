@@ -19,17 +19,24 @@ function initializeLocalLaunches() {
   }
 }
 
+const isSyncing = ref(false);
+
 watch(() => store.launches, (newLaunches) => {
-  if (newLaunches && newLaunches.length > 0 && !isDragging.value) {
+  if (!isDragging.value && !isSyncing.value && newLaunches && newLaunches.length > 0) {
+    isSyncing.value = true;
     localLaunches.value = JSON.parse(JSON.stringify(newLaunches));
+    isSyncing.value = false;
   }
 });
 
 watch(() => localLaunches.value, (newLocalLaunches) => {
-  if (isInitialized.value && !isDragging.value) {
-    store.launches = [...newLocalLaunches];
+  if (!isDragging.value && !isSyncing.value && isInitialized.value) {
+    isSyncing.value = true;
+    store.updateLaunchesOrder(newLocalLaunches);
+    isSyncing.value = false;
   }
 });
+
 
 function onDragStart() {
   isDragging.value = true;
