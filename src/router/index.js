@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router';
 import LaunchPage from "@/pages/LaunchPage.vue";
 import AboutPage from "@/pages/AboutPage.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
-    { path: '/', redirect: '/launches' },
+    { path: '/',},
     { path: '/launches', component: LaunchPage },
     { path: '/about', component: AboutPage },
   ],
