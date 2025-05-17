@@ -1,5 +1,4 @@
 <script setup>
-
 const props = defineProps({
   label: String,
   size: String,
@@ -63,20 +62,6 @@ const getContrastColor = (hex) => {
   color: #ffffff;
 }
 
-.marketing {
-  background: #039992;
-  color: #ffffff;
-}
-
-.programming {
-  background: #0220FF;
-  color: #ffffff;
-}
-
-.graphics {
-  background: #00BAE2;
-  color: #ffffff;
-}
 
 .default-bg-color {
   background: #EDEDED;

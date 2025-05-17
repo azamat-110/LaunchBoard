@@ -6,7 +6,9 @@ import Sidebar from "@/components/Sidebar.vue";
   <div class="app-layout">
     <Sidebar/>
     <main class="page-content">
-      <router-view/>
+      <transition name="fade" mode="out-in">
+        <router-view/>
+      </transition>
     </main>
   </div>
 
@@ -15,12 +17,23 @@ import Sidebar from "@/components/Sidebar.vue";
 <style scoped>
 .app-layout {
   display: flex;
-  padding: 20px;
+  max-width: 100vw;
 }
 
 .page-content{
-  max-width: 1920px;
-  width: 100%;
+  padding: 20px 0;
+  flex: 1;
+  width: calc(100vw - 400px);
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to, .fade-leave-from {
+  opacity: 1;
 }
 
 </style>

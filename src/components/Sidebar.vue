@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <div class="sidebar">
@@ -24,6 +23,7 @@
   min-width: 400px;
   border-right: 1px solid #CCCCCC;
   height: 100vh;
+  padding: 20px;
 
   &__logo {
     font-size: 30px;
@@ -36,7 +36,6 @@
   display: flex;
   flex-direction: column;
   padding-top: 70px;
-  padding-right: 20px;
 
   &__link {
     display: flex;

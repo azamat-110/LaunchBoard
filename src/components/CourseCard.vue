@@ -116,10 +116,10 @@ function sortedGroups(groups) {
 </template>
 
 <style lang="scss" scoped>
-
 .course-card {
   min-width: 350px;
   overflow-y: auto;
+  transition: all .5s;
 }
 
 .course-header {

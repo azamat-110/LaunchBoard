@@ -1,6 +1,5 @@
 import {defineStore} from 'pinia';
 
-
 export const useLaunches = defineStore('launches', {
     state: () => ({
         launches: [],
@@ -22,7 +21,6 @@ export const useLaunches = defineStore('launches', {
                 this.loading = false;
             }
         }
-
     }
 })
 
