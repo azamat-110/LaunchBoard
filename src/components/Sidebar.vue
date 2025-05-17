@@ -21,9 +21,18 @@
 <style lang="scss" scoped>
 .sidebar {
   min-width: 400px;
-  border-right: 1px solid #CCCCCC;
   height: 100vh;
   padding: 20px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 400px;
+    width: 1px;
+    background-color: #CCCCCC;
+  }
 
   &__logo {
     font-size: 30px;
