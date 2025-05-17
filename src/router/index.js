@@ -5,7 +5,7 @@ import AboutPage from "@/pages/AboutPage.vue";
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
-    { path: '/',},
+    { path: '/', redirect: '/launches'},
     { path: '/launches', component: LaunchPage },
     { path: '/about', component: AboutPage },
   ],
